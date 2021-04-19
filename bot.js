@@ -3,7 +3,8 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
 // const con = require('./connection');
-const addServer = require('./functions/addServer')
+const addServer = require('./functions/addServer');
+const con = require('./connection');
 
 
 const client = new Discord.Client();
@@ -30,16 +31,18 @@ client.on('error', console.error);
 
 
 client.on('message', message => {
-
+    con.query("SELECT * FROM guilds WHERE guildID = ?", message.guild.id, (error, data) => {
+        if (data.length == 0) {
+            addServer(message)
+        }
+    })
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    console.log(message.author.username)
-    console.log(message.content)
 
-            client.user.setPresence({ activity: { name: "type -help for help!" }, status: 'online' })
+    client.user.setPresence({ activity: { name: "type -help for help!" }, status: 'online' })
 
-        
-    
+
+
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 

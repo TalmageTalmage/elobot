@@ -3,14 +3,15 @@ const Discord = require('discord.js');
 const config = require('../config.json')
 
 const eloUpdate = require("./eloUpdate.js");
-const compare = require("./saveRedCompare.js")
+
+
 
 
 let redWin = (message) => {
 
     let redElo = 0
     let blueElo = 0
-    con.query("SELECT * FROM openLobbies WHERE channelID = ?", message.channel.id, (error, gameType) => {
+    con.query("SELECT * FROM lobbies WHERE id = ?", message.channel.id, (error, gameType) => {
 
         teamSize = gameType[0].lobbySize
         team = gameType[0].lobbySize / 2
@@ -22,15 +23,18 @@ let redWin = (message) => {
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].team == "red") {
                         redElo = data[i].elo + redElo
+                        console.log(data[i])
                     }
 
                     else {
                         blueElo = data[i].elo + blueElo
+                        console.log(data[i])
                     }
 
+                    console.log("red elo = " + redElo + " blue elo = " + blueElo)
                 }
 
-                redElo = redElo
+                redElo = redElo 
                 blueElo = blueElo
                 eloDiff = eloUpdate(blueElo, redElo)
                 // for loop to update players 
@@ -52,9 +56,10 @@ let redWin = (message) => {
                         })
                     }
                 }
-                compare(message, eloDiff)
 
-
+                con.query('DROP TABLE ??', message.channel.id)
+                con.query('DROP TABLE ??', message.channel.id + "scores")
+                con.query("DELETE FROM lobbies WHERE id = ?", message.channel.id)
 
 
 

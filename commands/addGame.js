@@ -5,7 +5,7 @@ const con = require("../connection")
 
 module.exports = {
     name: 'addgame',
-    description: 'addgame <gamename> <lobbysize> if gamename is multiple words it must be put in quotations',
+    description: 'addgame <gamename> <total lobby size> if gamename is multiple words it must be put in quotations',
     aliases: ['add'],
 
     execute(message, args) {
@@ -19,9 +19,11 @@ module.exports = {
             message.channel.send("Minimum lobby size is 4!")
         }
         else if (isEven(args[1])) {
-            con.query("SELECT * FROM games WHERE gameType= ? AND guildID =? ", [args[0], message.guild.id], (error, data) => {
-
-                if (data.length == 0) {
+            con.query("SELECT * FROM games WHERE gameType = ? AND guildID = ? ", [args[0], message.guild.id], (error, data) => {
+                if (error) {
+                    console.log(error)
+                }
+                else if (data.length == 0) {
                     con.query("INSERT INTO games SET ?", [{ gameType: args[0], lobbySize: args[1], guildID: message.guild.id }], (error, data) => {
                         if (error) {
                             message.channel.send("Please put the game name first and then the lobby size afterwards.")

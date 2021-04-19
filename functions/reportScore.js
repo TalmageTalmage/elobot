@@ -9,7 +9,7 @@ const Discord = require('discord.js');
 
 let scoreReport = (message, args) => {
 
-    con.query("SELECT * FROM lobbies WHERE id=?", message.channel.id, (error, data) => {
+    con.query("SELECT * FROM openLobbies WHERE channelID=?", message.channel.id, (error, data) => {
         let report = data[0].lobbySize / 2
 
         con.query("CREATE TABLE ??(id VARCHAR(30), redScore INT, blueScore INT, PRIMARY KEY (id));", [message.channel.id + "scores"], (error, data) => {

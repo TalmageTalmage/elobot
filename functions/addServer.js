@@ -2,10 +2,10 @@ const con = require("../connection")
 
 
 
-let lobbyCheck = (message) => {
+let addServer = (message) => {
 
-    con.query("INSERT INTO servers SET ?", [{ id: message.guild.id }])
+    con.query("INSERT INTO guilds SET ?", [{ guildID: message.guild.id, guildName: message.guild.name }])
 
 }
 
-module.exports = lobbyCheck
+module.exports = addServer

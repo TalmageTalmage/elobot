@@ -17,7 +17,10 @@ module.exports = {
         con.query("DROP TABLE ??;", [message.channel.id + "turnToPick"], (error, data) => {
 
         })
-        con.query("DELETE FROM lobbies WHERE id = ?", message.channel.id)
+        con.query("DROP TABLE ??;", [message.channel.id + "scores"], (error, data) => {
+
+        })
+        con.query("DELETE FROM openLobbies WHERE channelID = ?", message.channel.id)
 
     },
 };

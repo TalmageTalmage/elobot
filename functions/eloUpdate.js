@@ -7,8 +7,6 @@ let eloUpdate = (loserELO, winnerELO) => {
 
 
 
-    console.log(loserELO)
-    console.log(winnerELO)
 
     var eloDiff = loserELO - winnerELO;
     var eloUpdate;

@@ -17,7 +17,7 @@ let startDraft = (message) => {
         })
 
         con.query("CREATE TABLE ??(pick VARCHAR(30), PRIMARY KEY (pick));", [message.channel.id + "turnToPick"], (error, result) => {
-            con.query("INSERT INTO ?? SET ?", [message.channel.id + "turnToPick", { pick: "blue" }])
+            con.query("INSERT INTO ?? SET ?", [message.channel.id + "turnToPick", { pick: "blue2" }])
         })
 
         let draft = con.query("SELECT * FROM ?? WHERE team = ?", [message.channel.id, ''], function (err, r, fields) {

@@ -13,6 +13,8 @@ module.exports = {
             data.push('Here\'s a list of all my commands:');
             data.push("```" + commands.map(command => command.name).join('\n ') + "```");
             data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
+            data.push('Each lobby is bound to a specific channel. You can only use commands for that lobby in that specific channel. Once the game is finished and scored you have to use -close to start a new lobby in that channel');
+
 
             return message.channel.send(data, { split: true })
 
@@ -33,4 +35,4 @@ module.exports = {
 
         message.channel.send(data, { split: true });
     },
-}; 
+};

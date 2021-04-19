@@ -14,10 +14,11 @@ module.exports = {
 
     execute(message, args) {
 
-        con.query("SELECT * FROM ?? WHERE id =?", [message.channel.id, message.author.id], (error, lobbyData) => {
+        con.query("SELECT * FROM ?? WHERE id = ?", [message.channel.id, message.author.id], (error, lobbyData) => {
             if (error) { message.channel.send("There does not seem to be a lobby in this channel!") }
             else if (lobbyData.length == 0) {
-                con.query("SELECT * FROM lobbies WHERE id=?", [message.channel.id], (error, gameType) => {
+                con.query("SELECT * FROM openLobbies WHERE channelID = ?", [message.channel.id], (error, gameType) => {
+                    console.log(gameType)
                     con.query("SELECT * FROM ??", message.channel.id, (error, lobbyFull) => {
                         if (lobbyFull.length == gameType.lobbySize) {
                             message.channel.send("The lobby is full!")
