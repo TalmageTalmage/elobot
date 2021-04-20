@@ -1,6 +1,4 @@
 
-
-const con = require("../connection")
 const config = require('../config.json');
 
 module.exports = {

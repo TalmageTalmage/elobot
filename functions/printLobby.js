@@ -16,15 +16,27 @@ let print = (message) => {
             else {
                 let availableNames = ''
                 let availableElo = ''
+                let isCapt = ''
+
 
                 for (var i = 0; i < r.length; i++) {
+                    if (r[i].capt === 1) {
+                        r[i].capt = "✅"
+                    }
+                    else if (r[i].capt === 0) {
+                        r[i].capt = "❌"
+                    }
                     availableNames = availableNames.concat(r[i].username + '\n')
                     availableElo = availableElo.concat(r[i].elo + '\n')
+                    isCapt = isCapt.concat(r[i].capt + '\n')
+
                 }
                 const draftEmb = new Discord.MessageEmbed()
                     .addFields(
                         { name: "Players", value: availableNames, inline: true },
                         { name: "ELO", value: availableElo, inline: true },
+                        { name: "Captain", value: isCapt, inline: true },
+
                     )
                 message.channel.send(draftEmb);
             }

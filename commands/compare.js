@@ -1,13 +1,13 @@
 
 
 const con = require("../connection")
-const config = require('../config.json');
 
 module.exports = {
     name: 'compare',
     aliases: ['c'],
     description: 'compares 2 players winrates vs eachother. -compare <gamemode> <@player1> <@player2>',
     execute(message, args) {
+        const userArray = message.mentions.users.array();
         con.query("SELECT * FROM games WHERE guildID = ? AND gameType = ?", [message.guild.id, args[0]], (error, game) => {
 
 
@@ -27,8 +27,8 @@ module.exports = {
                         message.channel.send("These 2 players have not played this game together yet!")
                     }
                     else {
-                        message.channel.send(args[1] + " has beaten " + args[2] + " " + data[0].winsAgainst + " times in " + args[0] + "! " + args[1] + " has been beaten by " + args[2] + " " + data[0].lossesAgainst + " times. " +
-                            args[1] + " and " + args[2] + " have won together " + data[0].winsWith + " times and lost together " + data[0].lossesWith + " times. The current ELO differential is " + data[0].ELODiff)
+                        message.channel.send(userArray[0].username + " has beaten " + userArray[1].username + " " + data[0].winsAgainst + " times in " + args[0] + "! " + userArray[0].username + " has been beaten by " + userArray[1].username + " " + data[0].lossesAgainst + " times. " +
+                            userArray[0].username + " and " + userArray[1].username + " have won together " + data[0].winsWith + " times and lost together " + data[0].lossesWith + " times. The current ELO differential is " + data[0].ELODiff)
                     }
                 })
 

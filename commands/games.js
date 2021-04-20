@@ -9,14 +9,13 @@ module.exports = {
     execute(message, args) {
         con.query("SELECT * FROM games WHERE guildID = ?", [message.guild.id], (error, data) => {
             let rows = []
-            console.log(data)
             for (var i = 0; i < data.length; i++) {
-                let games = [data[i].gameType, data[i].lobbySize]
+                let games = [data[i].gameType, data[i].lobbySize, data[i].captType]
                 rows.push(games)
             }
             //creates a table and orders it by ELO
             leaderTable = new PrettyTable()
-            var headers = ["Game", "Lobby Size"]
+            var headers = ["Game", "Lobby Size", "Captain Type"]
             leaderTable.create(headers, rows)
             leaderTable.sortTable("ELO", reverse = true)
             var tableContent = leaderTable.toString();

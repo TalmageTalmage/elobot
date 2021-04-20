@@ -17,9 +17,9 @@ module.exports = {
                         message.channel.send("This is not an available game mode! Use the addGame command to add it!")
                     }
                     else {
-                        con.query("INSERT INTO openLobbies set ?", [{ channelID: message.channel.id, gameType: args[0], lobbySize: data[0].lobbySize, guildID: message.guild.id }], (error, data) => {
+                        con.query("INSERT INTO openLobbies set ?", [{ channelID: message.channel.id, gameType: args[0], lobbySize: data[0].lobbySize, guildID: message.guild.id, captType: data[0].captType }], (error, data) => {
                             if (error) throw error
-                            con.query("CREATE TABLE ??(id VARCHAR(30), username VARCHAR(30), elo INT, team VARCHAR(30), PRIMARY KEY (id))", [message.channel.id], (error, data) => {
+                            con.query("CREATE TABLE ??(id VARCHAR(30), username VARCHAR(30), elo INT, capt BOOLEAN, team VARCHAR(30), PRIMARY KEY (id))", [message.channel.id], (error, data) => {
                                 if (error) throw error
                                 message.channel.send("Lobby created! Use join to join!")
                             })

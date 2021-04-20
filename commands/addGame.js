@@ -1,8 +1,5 @@
 const con = require("../connection")
 
-
-
-
 module.exports = {
     name: 'addgame',
     description: 'addgame <gamename> <total lobby size> if gamename is multiple words it must be put in quotations',
@@ -11,8 +8,8 @@ module.exports = {
     execute(message, args) {
 
 
-        if (args.length != 2) {
-            message.channel.send("Please put the game name first and then the lobby size afterwards.")
+        if (args.length != 3) {
+            message.channel.send("Please put the game name first and then the lobby size afterwards followed by the captain type ('rating' or 'nomination').")
             return
         }
         else if (args[1] <= 3) {
@@ -24,14 +21,19 @@ module.exports = {
                     console.log(error)
                 }
                 else if (data.length == 0) {
-                    con.query("INSERT INTO games SET ?", [{ gameType: args[0], lobbySize: args[1], guildID: message.guild.id }], (error, data) => {
-                        if (error) {
-                            message.channel.send("Please put the game name first and then the lobby size afterwards.")
-                        }
-                        else {
-                            message.channel.send("Game added!")
-                        }
-                    })
+                    if (args[2] === "rating" || args[2] == "nomination") {
+                        con.query("INSERT INTO games SET ?", [{ gameType: args[0], lobbySize: args[1], captType: args[2], guildID: message.guild.id }], (error, data) => {
+                            if (error) {
+                                message.channel.send("Please put the game name first and then the lobby size afterwards.")
+                            }
+                            else {
+                                message.channel.send("Game added!")
+                            }
+                        })
+                    }
+                    else {
+                        message.channel.send("Please set your captain type ('rating' or 'nomination' and try again!")
+                    }
                 }
                 else {
                     message.channel.send("This game mode is already available in this server!")

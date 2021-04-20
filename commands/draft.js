@@ -1,9 +1,6 @@
 const con = require("../connection")
 const Discord = require('discord.js');
-const client = new Discord.Client();
 const printTeams = require('../functions/printTeams')
-
-
 
 
 
@@ -12,6 +9,8 @@ module.exports = {
     description: '-draft <@player>',
     aliases: ['d', 'p', 'pick'],
     execute(message, args) {
+        const userArray = message.mentions.users.array();
+
         con.query("SELECT * FROM ??", [message.channel.id + "turnToPick"], (error, data) => {
             if (error) { message.channel.send("There does not seem to be a draft at the moment.") }
 
@@ -35,7 +34,7 @@ module.exports = {
                             else {
                                 con.query("UPDATE ?? SET pick = 'blue'", [message.channel.id + "turnToPick"])
                                 con.query("UPDATE ?? SET team = 'red' WHERE id = ? ", [message.channel.id, drafted])
-                                message.channel.send("Red team picked " + args[0] + "!")
+                                message.channel.send("Red team picked " + userArray[0].username + "!")
 
                                 con.query("SELECT * FROM ?? WHERE team = ''", [message.channel.id], (error, data) => {
                                     if (data.length == 0) {
@@ -100,7 +99,7 @@ module.exports = {
                             else {
                                 con.query("UPDATE ?? SET pick = 'red2'", [message.channel.id + "turnToPick"])
                                 con.query("UPDATE ?? SET team = 'red' WHERE id = ? ", [message.channel.id, drafted])
-                                message.channel.send("Red team picked " + args[0] + "!")
+                                message.channel.send("Red team picked " + userArray[0].username + "!")
 
                                 con.query("SELECT * FROM ?? WHERE team = ''", [message.channel.id], (error, data) => {
                                     if (data.length == 0) {
@@ -164,7 +163,7 @@ module.exports = {
                             else {
                                 con.query("UPDATE ?? SET pick = 'red'", [message.channel.id + "turnToPick"])
                                 con.query("UPDATE ?? SET team = 'blue' WHERE id = ? ", [message.channel.id, drafted])
-                                message.channel.send("Red team picked " + args[0] + "!")
+                                message.channel.send("Red team picked " + userArray[0].username + "!")
 
                                 con.query("SELECT * FROM ?? WHERE team = ''", [message.channel.id], (error, data) => {
                                     if (data.length == 0) {
@@ -227,7 +226,7 @@ module.exports = {
                                 con.query("UPDATE ?? SET pick = 'blue2'", [message.channel.id + "turnToPick"])
 
                                 con.query("UPDATE ?? SET team = 'blue' WHERE id = ? ", [message.channel.id, drafted])
-                                message.channel.send("Blue team picked " + args[0] + "!")
+                                message.channel.send("Blue team picked " + userArray[0].username + "!")
                                 con.query("SELECT * FROM ?? WHERE team = ''", [message.channel.id], (error, data) => {
                                     if (data.length == 0) {
                                         con.query("DROP TABLE ??", [message.channel.id + "turnToPick"])
